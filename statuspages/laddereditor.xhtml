@@ -27,11 +27,14 @@
 <script type="text/javascript" src="ladsubreditlib.js"></script>
 <!-- Subroutine data control. -->
 <script type="text/javascript" src="ladsubrdata.js"></script>
+<script type="text/javascript" src="save.js"></script>
+<script type="text/javascript" src="Load.js"></script>
 
 <!-- Server communications. -->
 <script type="text/javascript" src="libdata.js"></script>
 <script type="text/javascript" src="libstatutils.js"></script>
 <script type="text/javascript" src="libdatapost.js"></script>
+
 
 
 
@@ -4280,13 +4283,15 @@
 		// Show the static rung.
 		var rungtype = SubrData.GetRungType(rungref);
 		SubrControl.ShowStaticRung(rungref, rungtype);
-
+		
 		// Send the data to the server.
 		var host = window.location.hostname;
 		var port = window.location.port;
 
 		var savecmd = new StatusDataSend(host, port, EditSaveResult);
-		savedata = SubrData.ExportData();
+		savedata = JSON.stringify(SubrData.ExportData());
+		Load();
+		Save(savedata);
 		savecmd.SendPostRequest("/statdata/plcnewsource.js", savedata);
 
 	}
